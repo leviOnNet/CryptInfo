@@ -28,7 +28,7 @@ if options == 'Getting Started with Crypto':
     st.subheader("What is Crypto Currency and why should you care?")
     st.write("Crypto-currency is a  digital currency in which transactions are verified and records maintained by a decentralized system using cryptography, rather than by a centralized authority. It makes use of the blockchain system to create, dispense, log and verify transactions.")
     
-    st.image("chart.png",caption="Crypto Currency Market Cap",width=300)
+    st.image("chart1.png",caption="Crypto Currency Market Cap",width=350)
 
     st.write("As seen on the image above from coinmarketcap.com, the market cap for crypto-currencies has increased exponentially with Bitcoin Leading the way. with a rise in online payment systems, and web3 around the corner, online ecosystems are growing fast and crypto-currency is the prefered method of payment for many as the market caps prove.")
 
