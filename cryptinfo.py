@@ -1,8 +1,14 @@
 import streamlit as st
 import pandas as pd
+from rates import rate
+from binance import AsyncClient
+from binance.client import Client
+import config1
+from pandas.core.frame import DataFrame
+from datetime import datetime
 
-
-
+client = Client(config1.API_KEY, config1.API_SECRET)
+symbol_df = pd.read_json('https://api.binance.com/api/v3/ticker/24hr')
 
 
 # Load market data from Binance API
@@ -28,7 +34,7 @@ if options == 'Getting Started with Crypto':
     st.subheader("What is Crypto Currency and why should you care?")
     st.write("Crypto-currency is a  digital currency in which transactions are verified and records maintained by a decentralized system using cryptography, rather than by a centralized authority. It makes use of the blockchain system to create, dispense, log and verify transactions.")
     
-    st.image("chart1.png",caption="Crypto Currency Market Cap",width=350)
+    st.image("chart.png",caption="Crypto Currency Market Cap",width=800)
 
     st.write("As seen on the image above from coinmarketcap.com, the market cap for crypto-currencies has increased exponentially with Bitcoin Leading the way. with a rise in online payment systems, and web3 around the corner, online ecosystems are growing fast and crypto-currency is the prefered method of payment for many as the market caps prove.")
 
@@ -52,6 +58,51 @@ if options == 'Crypto Wallets1':
     st.markdown(link2,unsafe_allow_html=True)
     link3 = '[Binance](https://binance.com/)'
     st.markdown(link3,unsafe_allow_html=True)
+
+if options == 'graphs':
+    col1_selection = st.sidebar.selectbox('Select Pair', symbol_df.symbol, list(symbol_df.symbol).index('BTCUSDT') )
+    col1_df = symbol_df[symbol_df.symbol == col1_selection]
+    symbol =pd.DataFrame({"symbol":col1_df["symbol"]},index=None,dtype=str)
+    symbol["symbol"] = symbol["symbol"].astype(str)
+    for s in symbol["symbol"]:
+        print(s)
+
+    candlesticks = client.get_historical_klines(s, AsyncClient.KLINE_INTERVAL_6HOUR, "5 day ago UTC")
+
+    processed_candlesticks = []
+    processed_time_candlesticks = []
+    closes = []
+
+    for data in candlesticks:
+            candlestick = { 
+                "time": data[0]/1000 , 
+                "open": data[1],
+                "high": data[2], 
+                "low": data[3], 
+                "close": float(data[4])*rate
+            }
+
+
+            processed_candlesticks.append(candlestick)
+            True_candlestickts = DataFrame(processed_candlesticks)
+            processed_time_candlesticks.append(candlestick["time"])
+            closes.append(candlestick["close"])
+            
+            
+    timestamps = []
+    for i in processed_time_candlesticks:
+        timestamp = datetime.fromtimestamp(i)
+        timestamps.append(timestamp)
+    timestamp_cleaned = []
+    for i in timestamps:
+        timestamp_clean = i.strftime('%Y-%m-%d %H:%M:%S')
+        timestamp_cleaned.append(timestamp_clean)
+
+
+    Closes_with_date = pd.DataFrame({"Closing Price in rands":closes,"Time":timestamp_cleaned})
+    Closes_with_date = Closes_with_date.set_index('Time')
+
+    st.line_chart(Closes_with_date,width=300,height=500,use_container_width=True)
 if options == 'Crypto Wallets and Exchanges':
     
     st.write('For beginners, Luno is the simplest exchange in the market. I would suggest using it especially given that the south african gorvenment has banned users from depositing directly into Binance and other Unregulated exchanges. However, there is a workaround, once you have buy crypto in Luno it is easy to transer the funds to other exchanges.')
@@ -88,15 +139,15 @@ if options == 'Crypto Wallets and Exchanges':
     
 if options == 'Prices':
     # Widget (Cryptocurrency selection box)
-    col1_selection = st.sidebar.selectbox('Price 1', df.symbol, list(df.symbol).index('BTCBUSD') )
-    col2_selection = st.sidebar.selectbox('Price 2', df.symbol, list(df.symbol).index('ETHBUSD') )
-    col3_selection = st.sidebar.selectbox('Price 3', df.symbol, list(df.symbol).index('BNBBUSD') )
-    col4_selection = st.sidebar.selectbox('Price 4', df.symbol, list(df.symbol).index('XRPBUSD') )
-    col5_selection = st.sidebar.selectbox('Price 5', df.symbol, list(df.symbol).index('ADABUSD') )
-    col6_selection = st.sidebar.selectbox('Price 6', df.symbol, list(df.symbol).index('DOGEBUSD') )
-    col7_selection = st.sidebar.selectbox('Price 7', df.symbol, list(df.symbol).index('SHIBBUSD') )
-    col8_selection = st.sidebar.selectbox('Price 8', df.symbol, list(df.symbol).index('DOTBUSD') )
-    col9_selection = st.sidebar.selectbox('Price 9', df.symbol, list(df.symbol).index('MATICBUSD') )
+    col1_selection = st.sidebar.selectbox('Pair 1', df.symbol, list(df.symbol).index('BTCBUSD') )
+    col2_selection = st.sidebar.selectbox('Pair 2', df.symbol, list(df.symbol).index('ETHBUSD') )
+    col3_selection = st.sidebar.selectbox('Pair 3', df.symbol, list(df.symbol).index('BNBBUSD') )
+    col4_selection = st.sidebar.selectbox('Pair 4', df.symbol, list(df.symbol).index('XRPBUSD') )
+    col5_selection = st.sidebar.selectbox('Pair 5', df.symbol, list(df.symbol).index('ADABUSD') )
+    col6_selection = st.sidebar.selectbox('Pair 6', df.symbol, list(df.symbol).index('DOGEBUSD') )
+    col7_selection = st.sidebar.selectbox('Pair 7', df.symbol, list(df.symbol).index('SHIBBUSD') )
+    col8_selection = st.sidebar.selectbox('Pair 8', df.symbol, list(df.symbol).index('DOTBUSD') )
+    col9_selection = st.sidebar.selectbox('Pair 9', df.symbol, list(df.symbol).index('MATICBUSD') )
 
     # DataFrame of selected Cryptocurrency
     col1_df = df[df.symbol == col1_selection]
