@@ -65,13 +65,13 @@ if options == 'graphs':
     symbol =pd.DataFrame({"symbol":col1_df["symbol"]},index=None,dtype=str)
     symbol["symbol"] = symbol["symbol"].astype(str)
     for s in symbol["symbol"]:
-        print(s)
+        
 
-    candlesticks = client.get_historical_klines(s, AsyncClient.KLINE_INTERVAL_6HOUR, "5 day ago UTC")
+        candlesticks = client.get_historical_klines(s, AsyncClient.KLINE_INTERVAL_6HOUR, "5 day ago UTC")
 
-    processed_candlesticks = []
-    processed_time_candlesticks = []
-    closes = []
+        processed_candlesticks = []
+        processed_time_candlesticks = []
+        closes = []
 
     for data in candlesticks:
             candlestick = { 
