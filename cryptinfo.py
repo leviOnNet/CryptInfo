@@ -101,7 +101,7 @@ if options == 'graphs':
 
     Closes_with_date = pd.DataFrame({"Closing Price in rands":closes,"Time":timestamp_cleaned})
     Closes_with_date = Closes_with_date.set_index('Time')
-
+    st.write(s)
     st.line_chart(Closes_with_date,width=300,height=500,use_container_width=True)
 if options == 'Crypto Wallets and Exchanges':
     
