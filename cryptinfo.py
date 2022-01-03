@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from rates import rate
 from binance import AsyncClient
-from binance.client import client
+from binance.client import Client
 import config1
 from pandas.core.frame import DataFrame
 from datetime import datetime
