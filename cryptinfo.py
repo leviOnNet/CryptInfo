@@ -60,7 +60,7 @@ if options == 'Crypto Wallets1':
     st.markdown(link3,unsafe_allow_html=True)
 
 if options == 'graphs':
-    col1_selection = st.sidebar.selectbox('Select Pair', symbol_df.symbol, list(symbol_df.symbol).index('BTCUSDT') )
+    col1_selection = st.selectbox('Select Pair', symbol_df.symbol, list(symbol_df.symbol).index('BTCUSDT') )
     col1_df = symbol_df[symbol_df.symbol == col1_selection]
     symbol =pd.DataFrame({"symbol":col1_df["symbol"]},index=None,dtype=str)
     symbol["symbol"] = symbol["symbol"].astype(str)
