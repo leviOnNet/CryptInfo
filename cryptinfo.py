@@ -102,7 +102,7 @@ if options == 'graphs':
     Closes_with_date = pd.DataFrame({"Closing Price in rands":closes,"Time":timestamp_cleaned})
     Closes_with_date = Closes_with_date.set_index('Time')
     st.write(s)
-    st.line_chart(Closes_with_date,width=300,height=500,use_container_width=True)
+    st.line_chart(Closes_with_date,width=300,height=500,use_container_width=False)
 if options == 'Crypto Wallets and Exchanges':
     
     st.write('For beginners, Luno is the simplest exchange in the market. I would suggest using it especially given that the south african gorvenment has banned users from depositing directly into Binance and other Unregulated exchanges. However, there is a workaround, once you have buy crypto in Luno it is easy to transer the funds to other exchanges.')
