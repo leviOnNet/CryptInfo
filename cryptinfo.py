@@ -67,7 +67,7 @@ if options == 'graphs':
     for s in symbol["symbol"]:
         
 
-        candlesticks = client.get_historical_klines(s, AsyncClient.KLINE_INTERVAL_6HOUR, "5 day ago UTC")
+        candlesticks = client.get_historical_klines(s, AsyncClient.KLINE_INTERVAL_6HOUR, "4 day ago UTC")
 
         processed_candlesticks = []
         processed_time_candlesticks = []
@@ -99,7 +99,7 @@ if options == 'graphs':
         timestamp_cleaned.append(timestamp_clean)
 
 
-    Closes_with_date = pd.DataFrame({"Closing Price in rands":closes,"Time":timestamp_cleaned})
+    Closes_with_date = pd.DataFrame({"Closes":closes,"Time":timestamp_cleaned})
     Closes_with_date = Closes_with_date.set_index('Time')
     st.write(s)
     st.line_chart(Closes_with_date,width=300,height=500,use_container_width=False)
